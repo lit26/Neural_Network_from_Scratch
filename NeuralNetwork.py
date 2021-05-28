@@ -1,5 +1,6 @@
 import numpy as np
 from sklearn.metrics import mean_squared_error
+import pickle
 
 class NeuralNetwork:
     def __init__(self, layer, learning_rate=0.01):
@@ -74,8 +75,17 @@ class NeuralNetwork:
     def predict(self, X_test):
         return self.forward_propagation(X_test).reshape(-1,1).ravel()
 
+    def save_params(self):
+        pickle.dump(self._params, open('NerualNetwork_weights.pkl', 'wb'))
+    
+    def load_params(self):
+        file = open('NerualNetwork_weights.pkl', 'rb')
+        self._params = pickle.load(file)
+        file.close()
+
 '''
 layer = [X_train_normalized.shape[1], 128, 64, 1]  
 nn = NeuralNetwork(layer)
 nn.fit(X_train_normalized, y_train)
+nn.save_params()
 '''
